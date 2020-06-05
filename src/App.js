@@ -1,26 +1,56 @@
 import React from 'react';
-import logo from './logo.svg';
+import axios from 'axios';
+import {
+    Card,
+    CardImg,
+    CardText,
+    CardBody,
+    CardTitle,
+    CardSubtitle,
+    Button
+} from 'reactstrap';
+
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+    state = {
+        user: {}
+    }
+
+    componentDidMount() {
+        axios
+            .get('https://api.github.com/users/markanator')
+            .then(resp => {
+                console.log(resp.data)
+                this.setState({user: resp.data})
+            })
+            .catch(err => console.log(err))
+    }
+
+    render() {
+        return (
+            <div className="App">
+                <div className='user-wrapper'>
+                    <Card className='main-card'>
+                        <CardImg top src={this.state.user.avatar_url} alt="main user"/>
+                        <CardBody>
+                            <CardTitle>
+                                <strong>{this.state.user.name}</strong>
+                            </CardTitle>
+                            <CardSubtitle>
+                                <em>{this.state.user.location} </em>
+                                </CardSubtitle >
+                                <CardText>{this.state.user.bio}}</CardText>
+                                <Button href={this.state.user.html_url} >Github</Button>
+                                <Button>Follow!</Button>
+                            </CardBody>
+                        </Card>
+                    </div>
+
+                </div>
+        );
+    }
+
 }
 
 export default App;
