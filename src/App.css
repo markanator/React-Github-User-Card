@@ -9,6 +9,11 @@
   padding: 15px;
 }
 .main-card{
-  width: 300px;
+  width: 375px;
   height: auto;
+  box-shadow: 5px 5px 5px #cecece;
+}
+
+em{
+  font-style: italic;
 }
