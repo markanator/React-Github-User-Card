@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import {Card,CardBody,CardFooter,
         CardImg,CardTitle,CardSubtitle,CardText,ButtonGroup,
-        Button, Row, Col, Form, Label, Input, Spinner} from 'reactstrap';
+        Button, Row, Col, Form, Label, Input} from 'reactstrap';
 
 import './App.css';
 
@@ -20,9 +20,6 @@ class App extends React.Component {
 
     fetchData = (e)=>{
         this.setState({isLoading:true});
-        setTimeout(()=>
-
-        
         axios.get(`https://api.github.com/users/${this.state.username}`)
             .then(resp => {
                 //console.log(resp.data)
@@ -32,7 +29,7 @@ class App extends React.Component {
             .catch(err => {
                 console.log(err)
                 this.setState({isLoading:false});
-            }),
+            });
 
         axios.get(`https://api.github.com/users/${this.state.username}/followers`)
             .then((resp) => {
@@ -43,9 +40,7 @@ class App extends React.Component {
             .catch(err => {
                 console.log(err)
                 this.setState({isLoading:false});
-            })
-
-            ,5000);
+            });
     }
 
     handleChange = e =>{
@@ -54,9 +49,7 @@ class App extends React.Component {
     }
 
     render() {
-        if(this.state.isLoading){
-            return <Spinner style={{ width: '3rem', height: '3rem' }} />
-        }
+        
         return (
             <div className="App">
                 <Card className='user-wrapper'>
@@ -85,13 +78,13 @@ class App extends React.Component {
                             title='main user'/>
                         <CardBody>
                             <CardTitle tag='h2'>
-                                <strong>{this.state.user.name}</strong>
+                                { this.state.user?.name ? <strong>{this.state.user.name}</strong> : <strong>Loading...</strong> }
                             </CardTitle>
                             <CardSubtitle>
-                                <em>{this.state.user.location}</em>
+                                { this.state.user?.location ? <em>{this.state.user.location}</em>: <strong>Loading...</strong> }
                             </CardSubtitle >
                             <CardText>
-                                {this.state.user.bio}}
+                                { this.state.user?.bio ? <em>{this.state.user.bio}</em>: <strong>Loading...</strong> }
                             </CardText>
                             {/* <Button href={this.state.user.html_url} >Github</Button>
                                 <Button>Follow!</Button> */}
